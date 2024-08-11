@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("encrypt-button").addEventListener("click", function() {
+                document.getElementById("encrypt-input").value = window.electron.encrypt(document.getElementById("encrypt-input").value);
+            });
+            document.getElementById("decrypt-button").addEventListener("click", function() {
+                document.getElementById("decrypt-input").value = window.electron.decrypt(document.getElementById("decrypt-input").value);
+            });
+        });
+    </script>
+</head>
+<body style="background-color: dimgray">
+    <div style="display: flex; flex-direction: column;">
+        <button id="encrypt-button" style="width: 100px">Encrypt text below</button>
+        <textarea id="encrypt-input"></textarea>
+    </div>
+    </br>
+    <div style="display: flex; flex-direction: column;">
+        <button id="decrypt-button" style="width: 100px">Decrypt text below</button>
+        <textarea id="decrypt-input"></textarea>
+    </div>
+</body>
+</html>
