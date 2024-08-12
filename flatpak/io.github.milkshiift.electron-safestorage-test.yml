@@ -1,0 +1,42 @@
+app-id: io.github.milkshiift.electron-safestorage-test
+
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+
+base: org.electronjs.Electron2.BaseApp
+base-version: '23.08'
+
+command: startelectron
+separate-locales: false
+
+finish-args:
+  - --socket=pulseaudio
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=network
+  - --share=ipc
+  - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
+  - --talk-name=org.freedesktop.secrets
+
+modules:
+  - name: Electron
+    buildsystem: simple
+    build-commands:
+      - chmod +x electron-safestorage-test.AppImage
+      - ./electron-safestorage-test.AppImage --appimage-extract
+      - desktop-file-edit --set-key="Exec" --set-value="startelectron" --set-icon=$FLATPAK_ID
+        squashfs-root/electron-safestorage-test.desktop
+      - install -D squashfs-root/electron-safestorage-test.desktop /app/share/applications/io.github.milkshiift.electron-safestorage-test.desktop
+      - install -Dm755 startelectron /app/bin/startelectron
+      - mv squashfs-root /app/bin/electron-safestorage-test
+
+    sources:
+      - type: file
+        path: startelectron
+
+      - type: file
+        url: https://github.com/Milkshiift/electron-safestorage-test/releases/download/v1.0.0/electron-safestorage-test-1.0.0.AppImage
+        sha512: 33d5c37af669c5c40aed2029f232580053b29b2cfe93c6ba90f00bbd58976c13db1b832a0dff42fa8fc5a870aa35b8cc64b7d4211085bcf46cbf862d06df8a60
+        dest-filename: electron-safestorage-test.AppImage
+

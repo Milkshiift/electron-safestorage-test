@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+exec zypak-wrapper /app/bin/electron-safestorage-test/electron-safestorage-test "${FLAGS[@]}" "$@"
